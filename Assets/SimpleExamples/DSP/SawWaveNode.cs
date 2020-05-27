@@ -4,7 +4,7 @@ using Unity.Mathematics;
 namespace Unity.Audio
 {
     [BurstCompile]
-    public struct SinWaveNode : IAudioKernel<SinWaveNode.Parameters, SinWaveNode.Providers>
+    public struct SawWaveNode : IAudioKernel<SawWaveNode.Parameters, SawWaveNode.Providers>
     {
         public enum Parameters
         {
@@ -34,7 +34,8 @@ namespace Unity.Audio
             var parameters = context.Parameters;
             for (int s = 0, i = 0; s < frames; s++)
             {
-                float output = math.sin(m_Phase * 2f * math.PI);
+                
+                float output = math.fmod(m_Phase, 1f)*2f-1f;
                 for (var c = 0; c < outputChannels; c++)
                 {
                     outputBuffer[i++] = output;
